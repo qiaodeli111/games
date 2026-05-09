@@ -153,9 +153,9 @@
           // 管头
           ctx.fillStyle = '#5a9e1a';
           ctx.fillRect(x - 4, gapY - 24, PIPE_W + 8, 24);
-          // 高光
+          // 高光（从顶部到管头底部）
           ctx.fillStyle = 'rgba(255,255,255,0.15)';
-          ctx.fillRect(x + 6, gapY - 24, 6, gapY);
+          ctx.fillRect(x + 6, 0, 6, gapY - 24);
         }
         if (bottom) {
           ctx.fillStyle = '#73bf2e';
