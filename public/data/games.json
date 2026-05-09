@@ -1,0 +1,165 @@
+{
+  "categories": [
+    {
+      "id": 2,
+      "name": "动作游戏",
+      "slug": "action",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "id": 7,
+      "name": "冒险游戏",
+      "slug": "adventure",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "id": 1,
+      "name": "经典游戏",
+      "slug": "classic",
+      "parent_id": null,
+      "children": [
+        {
+          "id": 8,
+          "name": "街机",
+          "slug": "classic-arcade",
+          "parent_id": 1,
+          "children": []
+        },
+        {
+          "id": 9,
+          "name": "休闲",
+          "slug": "classic-casual",
+          "parent_id": 1,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "益智游戏",
+      "slug": "puzzle",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "id": 4,
+      "name": "射击游戏",
+      "slug": "shooting",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "id": 6,
+      "name": "体育游戏",
+      "slug": "sports",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "id": 5,
+      "name": "策略游戏",
+      "slug": "strategy",
+      "parent_id": null,
+      "children": []
+    }
+  ],
+  "games": [
+    {
+      "id": 1,
+      "name": "贪吃蛇",
+      "slug": "snake",
+      "description": "经典贪吃蛇游戏，控制蛇吃食物变长，避免撞墙和自身。支持键盘方向键、WASD 以及触摸滑动控制。",
+      "category_id": 8,
+      "author": "AI Games",
+      "controls_keyboard": "方向键 或 WASD",
+      "controls_touch": "滑动屏幕",
+      "created_at": "2026-05-09 09:00:05",
+      "category_name": "街机",
+      "category_slug": "classic-arcade",
+      "thumbnail": "/games/snake/thumbnail.svg",
+      "screenshots": []
+    },
+    {
+      "id": 2,
+      "name": "Flappy Bird",
+      "slug": "flappy",
+      "description": "控制小鸟穿过水管障碍，每穿过一个水管得一分。点击屏幕或按空格键让小鸟飞行。",
+      "category_id": 8,
+      "author": "AI Games",
+      "controls_keyboard": "空格键 / 上箭头",
+      "controls_touch": "点击屏幕",
+      "created_at": "2026-05-09 09:00:05",
+      "category_name": "街机",
+      "category_slug": "classic-arcade",
+      "thumbnail": "/games/flappy/thumbnail.svg",
+      "screenshots": []
+    }
+  ],
+  "allCategories": [
+    {
+      "id": 2,
+      "name": "动作游戏",
+      "slug": "action",
+      "parent_id": null,
+      "created_at": "2026-05-09 09:00:05"
+    },
+    {
+      "id": 7,
+      "name": "冒险游戏",
+      "slug": "adventure",
+      "parent_id": null,
+      "created_at": "2026-05-09 09:00:05"
+    },
+    {
+      "id": 1,
+      "name": "经典游戏",
+      "slug": "classic",
+      "parent_id": null,
+      "created_at": "2026-05-09 09:00:05"
+    },
+    {
+      "id": 3,
+      "name": "益智游戏",
+      "slug": "puzzle",
+      "parent_id": null,
+      "created_at": "2026-05-09 09:00:05"
+    },
+    {
+      "id": 4,
+      "name": "射击游戏",
+      "slug": "shooting",
+      "parent_id": null,
+      "created_at": "2026-05-09 09:00:05"
+    },
+    {
+      "id": 6,
+      "name": "体育游戏",
+      "slug": "sports",
+      "parent_id": null,
+      "created_at": "2026-05-09 09:00:05"
+    },
+    {
+      "id": 5,
+      "name": "策略游戏",
+      "slug": "strategy",
+      "parent_id": null,
+      "created_at": "2026-05-09 09:00:05"
+    },
+    {
+      "id": 8,
+      "name": "街机",
+      "slug": "classic-arcade",
+      "parent_id": 1,
+      "created_at": "2026-05-09 09:00:05"
+    },
+    {
+      "id": 9,
+      "name": "休闲",
+      "slug": "classic-casual",
+      "parent_id": 1,
+      "created_at": "2026-05-09 09:00:05"
+    }
+  ]
+}
