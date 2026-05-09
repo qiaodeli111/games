@@ -12,7 +12,8 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:generate": "tsx scripts/generate-data.ts",
     "db:setup": "npm run db:seed && npm run db:generate",
-    "prebuild": "npm run db:setup"
+    "prebuild": "npm run db:setup",
+    "cfbuild": "vite build"
   },
   "dependencies": {
     "better-sqlite3": "^12.9.0",
