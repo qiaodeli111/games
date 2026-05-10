@@ -55,6 +55,21 @@ export default function HomePage({ data }: Props) {
         </div>
       </header>
 
+      <div className="featured-banner">
+        <Link to="/adventure" className="featured-link">
+          <div className="featured-content">
+            <span className="featured-badge">✨ NEW</span>
+            <h2>AI Text Adventure</h2>
+            <p>AI-powered stories · Every choice shapes your journey</p>
+            <p className="featured-sub">AI驱动故事 · 每个选择塑造你的旅程</p>
+            <span className="featured-cta">Play Now →</span>
+          </div>
+          <div className="featured-icons">
+            <span>🌋</span><span>🚀</span><span>👻</span><span>🤠</span><span>🐙</span>
+          </div>
+        </Link>
+      </div>
+
       <main className="main-content">
         <aside className="sidebar">
           <h2>游戏分类</h2>

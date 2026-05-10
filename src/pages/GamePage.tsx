@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import type { GamesData } from '../types';
 import './GamePage.css';
 
@@ -6,8 +6,19 @@ interface Props {
   data: GamesData;
 }
 
+// Games that use React Router pages instead of iframes
+const ROUTER_GAMES: Record<string, string> = {
+  'ai-adventure': '/adventure',
+};
+
 export default function GamePage({ data }: Props) {
   const { slug } = useParams<{ slug: string }>();
+
+  // Redirect to React Router page if applicable
+  if (slug && ROUTER_GAMES[slug]) {
+    return <Navigate to={ROUTER_GAMES[slug]} replace />;
+  }
+
   const game = data.games.find((g) => g.slug === slug);
 
   if (!game) {

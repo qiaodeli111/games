@@ -4,7 +4,9 @@ import { fetchGamesData } from './services/api';
 import type { GamesData } from './types';
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
+import AdventurePage from './pages/AdventurePage';
 import './App.css';
+import './pages/AdventurePage.css';
 
 function App() {
   const [data, setData] = useState<GamesData | null>(null);
@@ -40,6 +42,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage data={data!} />} />
         <Route path="/game/:slug" element={<GamePage data={data!} />} />
+        <Route path="/adventure" element={<AdventurePage />} />
       </Routes>
     </BrowserRouter>
   );

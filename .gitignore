@@ -27,3 +27,8 @@ games.db-wal
 *.njsproj
 *.sln
 *.sw?
+
+# AI-generated game images (hosted on Cloudflare R2)
+public/adventure-images/
+scripts/image_prompts.json
+scripts/registry_data.json
