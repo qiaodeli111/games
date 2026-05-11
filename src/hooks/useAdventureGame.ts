@@ -324,13 +324,16 @@ export function useAdventureGame() {
     };
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
-    } catch { /* quota exceeded */ }
+      console.log('[Save] Game saved at turn', state.turn);
+    } catch (e) { console.warn('[Save] Failed:', e); }
   }, [state.currentScene?.id, state.status]);
 
   // ─── Check for saved game ───────────────────────────────────
   const hasSavedGame = (): boolean => {
     try {
-      return localStorage.getItem(SAVE_KEY) !== null;
+      const exists = localStorage.getItem(SAVE_KEY) !== null;
+      console.log('[Save] hasSavedGame:', exists);
+      return exists;
     } catch { return false; }
   };
 
