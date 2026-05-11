@@ -5,12 +5,6 @@
 
 import type { StoryScene, StoryChoice, StoryEnding } from '../types/adventure';
 
-interface ThemeStory {
-  title: string;
-  scenes: PresetScene[];
-  endings: StoryEnding[];
-}
-
 interface PresetScene {
   story: string;
   translation: string;

@@ -31,7 +31,6 @@ interface ParsedOutline {
 }
 
 const MAX_TURNS = 100;
-const PREFETCH_DEPTH = 2; // Configurable: how many turns ahead to pre-generate
 const USE_FALLBACK_ON_API_ERROR = true;
 
 /** Cache for pre-generated scenes: choiceId → parsed scene data */
@@ -105,7 +104,7 @@ export function useAdventureGame() {
     parsedRaw: ParsedScene,
     nextTurn: number,
     newHistory: StoryScene[],
-    endings: StoryEnding[],
+    _endings: StoryEnding[],
     status: 'playing' | 'ending' | 'infinite',
     selectedEnding?: StoryEnding | null
   ) => {
@@ -125,7 +124,7 @@ export function useAdventureGame() {
   }, []);
 
   // ─── Fallback story ───────────────────────────────────────────
-  const advanceFallback = useCallback((choice: StoryChoice) => {
+  const advanceFallback = useCallback((_choice: StoryChoice) => {
     if (!state.theme) return;
     const nextTurn = state.turn + 1;
     const result = getFallbackStory(state.theme.id, nextTurn + 1);
@@ -171,7 +170,7 @@ export function useAdventureGame() {
 
       // Start prefetching next turns
       prefetchNext3(
-        scene.choices, theme, 1, endings, PREFETCH_DEPTH, historyRef.current
+        scene.choices, theme, 1, endings, historyRef.current
       );
     } catch (err) {
       if (USE_FALLBACK_ON_API_ERROR && hasFallbackStory(theme.id)) {
@@ -206,7 +205,7 @@ export function useAdventureGame() {
 
       // Prefetch from this scene's choices
       if (scene.choices.length > 0) {
-        prefetchNext3(scene.choices, state.theme, nextTurn, state.endings, PREFETCH_DEPTH, historyRef.current);
+        prefetchNext3(scene.choices, state.theme, nextTurn, state.endings, historyRef.current);
       }
       return;
     }
@@ -241,7 +240,7 @@ export function useAdventureGame() {
 
         // Prefetch from this scene's choices
         if (scene.choices.length > 0) {
-          prefetchNext3(scene.choices, state.theme, nextTurn, state.endings, PREFETCH_DEPTH, historyRef.current);
+          prefetchNext3(scene.choices, state.theme, nextTurn, state.endings, historyRef.current);
         }
       }
     } catch (err) {
@@ -275,7 +274,7 @@ export function useAdventureGame() {
         currentBackground: scene.background, history: [...prev.history, scene],
       }));
       if (scene.choices.length > 0) {
-        prefetchNext3(scene.choices, state.theme, state.turn + 1, state.endings, PREFETCH_DEPTH, historyRef.current);
+        prefetchNext3(scene.choices, state.theme, state.turn + 1, state.endings, historyRef.current);
       }
       return;
     }

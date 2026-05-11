@@ -1,25 +1,24 @@
-# Generate all remaining images (320 total, 8 themes × 40 each)
+# Generate all remaining images
 
-## Current status
+## Status: ✅ COMPLETE
+
+All 450 images (10 themes × 45 each) generated, uploaded to Cloudflare R2, and app configured to use CDN URLs.
+
+## Final Results
 - center-earth: ✅ 45/45
 - space: ✅ 45/45
-- 8 themes need 40 images each (10 bg + 15 char + 15 item)
+- haunted-village: ✅ 45/45
+- wild-west: ✅ 45/45
+- deep-sea: ✅ 45/45
+- tomb-raiding: ✅ 45/45
+- apocalypse: ✅ 45/45
+- magic-academy: ✅ 45/45
+- cyberpunk: ✅ 45/45
+- lost-civilization: ✅ 45/45
 
-## Plan
-- Iter 1: haunted-village + wild-west (80 images + registry)
-- Iter 2: deep-sea + tomb-raiding (80 images + registry)
-- Iter 3: apocalypse + magic-academy (80 images + registry)
-- Iter 4: cyberpunk + lost-civilization (80 images + registry)
-- Iter 5: Final verify + build
-
-## Checklist
-- [ ] haunted-village: 40 images
-- [ ] wild-west: 40 images
-- [ ] deep-sea: 40 images
-- [ ] tomb-raiding: 40 images
-- [ ] apocalypse: 40 images
-- [ ] magic-academy: 40 images
-- [ ] cyberpunk: 40 images
-- [ ] lost-civilization: 40 images
-- [ ] all imageRegistry.ts entries filled
-- [ ] build passes
+## Delivery
+- Images on R2: https://pics.dellyqiao.com/aigames/
+- spriteLoader.ts uses CDN_BASE constant
+- StoryCanvas.tsx uses CDN URLs
+- Git cleaned of all image files
+- Pushed to GitHub master

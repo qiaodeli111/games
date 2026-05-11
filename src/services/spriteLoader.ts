@@ -4,7 +4,7 @@
  * All per-theme, so each theme has its own dedicated images.
  */
 
-import type { AdventureTheme } from '../types/adventure';
+
 
 // ─── Per-theme: background key → bg-X.jpg ────────────────────────
 const THEME_BG: Record<string, Record<string, string>> = {
@@ -106,7 +106,7 @@ const THEME_ELEMENTS: Record<string, Record<string, ElementImage>> = {
 };
 
 // Default fallback for themes without full element maps
-function getDefaultElementMap(themeSlug: string): Record<string, ElementImage> {
+function getDefaultElementMap(): Record<string, ElementImage> {
   return {
     player: { file: 'char-0.jpg', label: 'Player', width: 100, height: 150 },
     companion: { file: 'char-1.jpg', label: 'Companion', width: 90, height: 140 },
@@ -133,11 +133,13 @@ function getDefaultElementMap(themeSlug: string): Record<string, ElementImage> {
 
 // ─── Public API ──────────────────────────────────────────────────
 
+const CDN = 'https://pics.dellyqiao.com/aigames';
+
 /** Get background image URL for a theme + bgKey */
 export function getBackgroundUrl(themeSlug: string, bgKey: string): string {
   const map = THEME_BG[themeSlug];
   const bgIdx = map?.[bgKey] || 'bg-0';
-  return `/adventure-images/${themeSlug}/${bgIdx}.jpg`;
+  return `${CDN}/${themeSlug}/${bgIdx}.jpg`;
 }
 
 /** Get element (character/item) image info */
@@ -145,11 +147,11 @@ export function getElementImage(
   themeSlug: string,
   elementType: string
 ): { url: string; label: string; width: number; height: number } | null {
-  const themeMap = THEME_ELEMENTS[themeSlug] || getDefaultElementMap(themeSlug);
+  const themeMap = THEME_ELEMENTS[themeSlug] || getDefaultElementMap();
   const info = themeMap[elementType];
   if (!info) return null;
   return {
-    url: `/adventure-images/${themeSlug}/${info.file}`,
+    url: `${CDN}/${themeSlug}/${info.file}`,
     label: info.label,
     width: info.width || 60,
     height: info.height || 60,

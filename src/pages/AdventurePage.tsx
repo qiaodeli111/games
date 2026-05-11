@@ -10,9 +10,6 @@ import './AdventurePage.css';
 export default function AdventurePage() {
   const { state, error, useFallbackMode, transitionVisible, selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame, clearError } = useAdventureGame();
 
-  // Filter theme description to remove hints about endings
-  const cleanDescription = (text: string) => text.replace(/\d+ endings?/gi, 'many paths').replace(/\d+ turns?/gi, 'a journey');
-
   if (state.status === 'menu') {
     return (
       <div className="adventure-page">

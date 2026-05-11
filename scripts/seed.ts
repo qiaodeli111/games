@@ -80,12 +80,15 @@ const arcade = db.prepare('SELECT id FROM categories WHERE slug = ?').get('class
 
 // ── Seed games ──
 const upsertGame = db.prepare(`
-  INSERT OR REPLACE INTO games (name, slug, description, category_id, author, controls_keyboard, controls_touch)
+  INSERT INTO games (name, slug, description, category_id, author, controls_keyboard, controls_touch)
   VALUES (@name, @slug, @description, @category_id, @author, @controls_keyboard, @controls_touch)
+  ON CONFLICT(slug) DO UPDATE SET
+    name=excluded.name, description=excluded.description, category_id=excluded.category_id,
+    author=excluded.author, controls_keyboard=excluded.controls_keyboard, controls_touch=excluded.controls_touch
 `);
 
 const upsertScreenshot = db.prepare(`
-  INSERT OR REPLACE INTO screenshots (game_id, path, is_thumbnail, display_order)
+  INSERT OR IGNORE INTO screenshots (game_id, path, is_thumbnail, display_order)
   VALUES (@game_id, @path, @is_thumbnail, @display_order)
 `);
 
