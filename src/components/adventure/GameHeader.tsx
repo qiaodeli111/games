@@ -6,10 +6,11 @@ interface Props {
   showChinese: boolean;
   onToggleChinese: () => void;
   onReset: () => void;
+  onExport?: () => void;
   isInfinite?: boolean;
 }
 
-export default function GameHeader({ theme, turn, showChinese, onToggleChinese, onReset, isInfinite }: Props) {
+export default function GameHeader({ theme, turn, showChinese, onToggleChinese, onReset, onExport, isInfinite }: Props) {
   return (
     <header className="adventure-header">
       <div className="header-left">
@@ -30,6 +31,9 @@ export default function GameHeader({ theme, turn, showChinese, onToggleChinese, 
         </div>
       </div>
       <div className="header-right">
+        <button className="header-btn export-btn" onClick={onExport} title="Export story">
+          📖 Export
+        </button>
         <button
           className={`header-btn lang-btn ${showChinese ? 'active' : ''}`}
           onClick={onToggleChinese}

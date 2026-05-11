@@ -68,6 +68,19 @@ function injectImagePrompt(prompt: string): string {
 Pick the ONE image that best represents this moment. Make the image filename meaningful to the story content. Example: "image": "bg-3.jpg" or "image": "char-5.jpg"`;
 }
 
+/** Generate a random story length descriptor */
+export function pickTurnLength(): string {
+  const r = Math.random();
+  if (r < 0.25) return 'very short';      // 25%: 1 paragraph, ~40 words
+  if (r < 0.55) return 'short';           // 30%: 1-2 paragraphs, ~60 words
+  if (r < 0.80) return 'moderate';        // 25%: 2 paragraphs, ~100 words
+  return 'long';                            // 20%: 3 paragraphs, ~150 words
+}
+
+function injectLength(prompt: string, length: string): string {
+  return `${prompt}\n\nSTORY LENGTH: This scene should be ${length}. ${length === 'very short' ? 'A brief moment, just a few sentences.' : length === 'short' ? 'A concise scene with just enough detail.' : length === 'moderate' ? 'A normal scene with good detail.' : 'A detailed scene with rich description.'} The pacing should vary between turns — some moments are quick, some are contemplative.`;
+}
+
 /**
  * Call Deepseek API for story generation
  */
@@ -167,12 +180,13 @@ export async function generateNextScene(
   turn: number,
   maxTurns: number,
   endings: Array<{ id: number; title: string; description: string }>,
-  literaryStyle: { name: string; author: string; description: string } | null
+  literaryStyle: { name: string; author: string; description: string } | null,
+  turnLength?: string
 ): Promise<string> {
   const literaryPrompt = injectLiteraryStyle(systemPrompt, literaryStyle);
   const endingTypes = endings.map(e => `- Ending ${e.id}: ${e.title} — ${e.description}`).join('\n');
 
-  const userMessage = injectImagePrompt(`Continue the story. Turn ${turn + 1} of approximately ${maxTurns}.
+  const userMessage = injectLength(injectImagePrompt(`Continue the story. Turn ${turn + 1} of approximately ${maxTurns}.
 
 The player chose: "${choice.text}" (${choice.flavor})
 
@@ -190,7 +204,7 @@ Return JSON:
   "background": "background_key",
   "image": "bg-0.jpg",
   "endingHint": null or { "endingId": 0, "title": "Ending Title", "titleCn": "中文标题", "description": "How the story concludes...", "descriptionCn": "中文描述..." }
-}`);
+}`), turnLength || pickTurnLength());
 
   const historyMessages: DeepseekMessage[] = [
     { role: 'system', content: literaryPrompt },

@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import type { AdventureTheme, StoryScene, StoryChoice, StoryEnding, GameState } from '../types/adventure';
-import { generateStoryOutline, generateNextScene, pickLiteraryStyle } from '../services/deepseek';
+import { generateStoryOutline, generateNextScene, pickLiteraryStyle, pickTurnLength } from '../services/deepseek';
 import { getFallbackStory, getFallbackEndings, hasFallbackStory } from '../services/storyFallback';
 
 interface ParsedScene {
@@ -155,6 +155,8 @@ export function useAdventureGame() {
       const outlineRaw = await generateStoryOutline(theme.systemPrompt, theme.name, literaryStyle.current);
       const outline: ParsedOutline = JSON.parse(
         outlineRaw.match(/```(?:json)?\s*([\s\S]*?)```/)?.[1] || outlineRaw
+      ,
+        pickTurnLength()
       );
 
       const endings: StoryEnding[] = outline.endings.map(e => ({
@@ -220,6 +222,8 @@ export function useAdventureGame() {
         currentTurn, MAX_TURNS,
         state.endings.map(e => ({ id: e.type, title: e.title, description: e.description })),
         literaryStyle.current
+      ,
+        pickTurnLength()
       );
 
       const parsedRaw: ParsedScene = JSON.parse(
@@ -286,6 +290,8 @@ export function useAdventureGame() {
         state.theme.systemPrompt, historyRef.current,
         { text: choice.text, flavor: choice.flavor },
         state.turn, 9999, [], literaryStyle.current
+      ,
+        pickTurnLength()
       );
       const parsedRaw: ParsedScene = JSON.parse(sceneRaw.match(/```(?:json)?\s*([\s\S]*?)```/)?.[1] || sceneRaw);
       const scene = parseScene(parsedRaw, state.turn + 1);
@@ -376,6 +382,37 @@ export function useAdventureGame() {
     try { localStorage.removeItem(SAVE_KEY); } catch {}
   }, []);
 
+  // ─── Export story as markdown ───────────────────────────────
+  const exportStory = useCallback((): string => {
+    const theme = state.theme;
+    const history = state.history;
+    const ending = state.selectedEnding;
+    
+    let md = `# ${theme?.name || 'Adventure'}  \n`;
+    md += `*A Tale of ${history.length} Turns*  \n\n`;
+    md += `---\n\n`;
+    
+    for (let i = 0; i < history.length; i++) {
+      const scene = history[i];
+      md += `## Chapter ${i + 1}: Turn ${scene.turn}\n\n`;
+      md += `${scene.text}\n\n`;
+      
+      // Find the choice made that led to the next scene
+      if (i < history.length - 1 && scene.choices.length > 0) {
+        const chosenText = scene.choices[0]?.text;
+        md += `> **I chose:** ${chosenText || '(continued...)'}\n\n`;
+      }
+    }
+    
+    if (ending) {
+      md += `---\n\n## The End\n\n`;
+      md += `**${ending.title}**\n\n`;
+      md += `${ending.description}\n`;
+    }
+    
+    return md;
+  }, [state.theme, state.history, state.selectedEnding]);
+
   // ─── Auto-prefetch when scene changes ──────────────────────
   useEffect(() => {
     if (!state.currentScene || !state.theme || prefetchAbort.current) return;
@@ -395,7 +432,7 @@ export function useAdventureGame() {
   return {
     state, error, useFallbackMode, transitionVisible,
     selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame,
-    hasSavedGame, restoreSavedGame, clearSavedGame,
+    hasSavedGame, restoreSavedGame, clearSavedGame, exportStory,
     clearError: () => setError(null),
   };
 }

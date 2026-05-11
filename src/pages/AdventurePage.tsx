@@ -8,11 +8,22 @@ import TransitionOverlay from '../components/adventure/TransitionOverlay';
 import './AdventurePage.css';
 
 export default function AdventurePage() {
-  const { state, error, useFallbackMode, transitionVisible, selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame, clearError, hasSavedGame, restoreSavedGame, clearSavedGame } = useAdventureGame();
+  const { state, error, useFallbackMode, transitionVisible, selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame, clearError, hasSavedGame, restoreSavedGame, clearSavedGame, exportStory } = useAdventureGame();
 
   const startNewGame = () => {
     clearSavedGame();
     resetGame();
+  };
+
+  const handleExport = () => {
+    const md = exportStory();
+    const blob = new Blob([md], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `adventure-${state.theme?.slug || 'story'}-${state.turn || 0}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   if (state.status === 'menu') {
@@ -104,6 +115,7 @@ export default function AdventurePage() {
         onToggleChinese={toggleChinese}
         onReset={resetGame}
         isInfinite={state.status === 'infinite'}
+        onExport={handleExport}
       />
       {state.status === 'infinite' && (
         <div className="infinite-notice">
