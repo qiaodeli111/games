@@ -63,7 +63,8 @@ export function useAdventureGame() {
     prefetchCache.current.clear();
     prefetchAbort.current = true;
     literaryStyle.current = null;
-  }, []);
+    clearSavedGame();
+  }, [clearSavedGame]);
 
   // ─── Prefetch system ─────────────────────────────────────────
   // ─── Prefetch: generate next 3 scenes in background ─────────
@@ -301,6 +302,77 @@ export function useAdventureGame() {
     }
   }, [state, prefetchNext3]);
 
+  // ─── Auto-save game state to localStorage ──────────────────
+  const SAVE_KEY = 'aigame_save';
+
+  useEffect(() => {
+    if (!state.currentScene || !state.theme || prefetchAbort.current) return;
+    if (state.status === 'menu' || state.status === 'generating') return;
+    
+    const saveData = {
+      theme: state.theme,
+      themeId: state.theme.id,
+      turn: state.turn,
+      status: state.status,
+      currentScene: state.currentScene,
+      history: state.history,
+      endings: state.endings,
+      selectedEnding: state.selectedEnding,
+      activeElements: Array.from(state.activeElements),
+      currentBackground: state.currentBackground,
+      literaryStyle: literaryStyle.current,
+    };
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
+    } catch { /* quota exceeded */ }
+  }, [state.currentScene?.id, state.status]);
+
+  // ─── Check for saved game ───────────────────────────────────
+  const hasSavedGame = (): boolean => {
+    try {
+      return localStorage.getItem(SAVE_KEY) !== null;
+    } catch { return false; }
+  };
+
+  const restoreSavedGame = useCallback((): boolean => {
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      
+      // Restore literary style
+      if (data.literaryStyle) {
+        literaryStyle.current = data.literaryStyle;
+      }
+      
+      // Restore history ref
+      if (data.history) {
+        historyRef.current = data.history.map((s: any) => ({ story: s.text }));
+      }
+      
+      setState(prev => ({
+        ...prev,
+        theme: data.theme,
+        turn: data.turn,
+        status: data.status === 'ending' ? 'ending' : 'playing',
+        currentScene: data.currentScene,
+        history: data.history || [],
+        endings: data.endings || [],
+        selectedEnding: data.selectedEnding || null,
+        activeElements: new Set(data.activeElements || []),
+        currentBackground: data.currentBackground || '',
+      }));
+      return true;
+    } catch (e) {
+      console.error('Failed to restore saved game:', e);
+      return false;
+    }
+  }, []);
+
+  const clearSavedGame = useCallback(() => {
+    try { localStorage.removeItem(SAVE_KEY); } catch {}
+  }, []);
+
   // ─── Auto-prefetch when scene changes ──────────────────────
   useEffect(() => {
     if (!state.currentScene || !state.theme || prefetchAbort.current) return;
@@ -320,6 +392,7 @@ export function useAdventureGame() {
   return {
     state, error, useFallbackMode, transitionVisible,
     selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame,
+    hasSavedGame, restoreSavedGame, clearSavedGame,
     clearError: () => setError(null),
   };
 }

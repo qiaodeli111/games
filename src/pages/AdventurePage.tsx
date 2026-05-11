@@ -8,7 +8,7 @@ import TransitionOverlay from '../components/adventure/TransitionOverlay';
 import './AdventurePage.css';
 
 export default function AdventurePage() {
-  const { state, error, useFallbackMode, transitionVisible, selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame, clearError } = useAdventureGame();
+  const { state, error, useFallbackMode, transitionVisible, selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame, clearError, hasSavedGame, restoreSavedGame } = useAdventureGame();
 
   if (state.status === 'menu') {
     return (
@@ -19,7 +19,12 @@ export default function AdventurePage() {
             <button onClick={clearError} className="error-dismiss">✕</button>
           </div>
         )}
-        <ThemeSelect themes={adventureThemes} onSelect={selectTheme} />
+        <ThemeSelect
+          themes={adventureThemes}
+          onSelect={selectTheme}
+          hasSavedGame={hasSavedGame()}
+          onContinue={restoreSavedGame}
+        />
       </div>
     );
   }

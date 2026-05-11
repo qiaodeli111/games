@@ -3,9 +3,11 @@ import type { AdventureTheme } from '../../types/adventure';
 interface Props {
   themes: AdventureTheme[];
   onSelect: (theme: AdventureTheme) => void;
+  hasSavedGame: boolean;
+  onContinue: () => void;
 }
 
-export default function ThemeSelect({ themes, onSelect }: Props) {
+export default function ThemeSelect({ themes, onSelect, hasSavedGame, onContinue }: Props) {
   return (
     <div className="theme-select">
       <div className="theme-select-header">
@@ -15,6 +17,17 @@ export default function ThemeSelect({ themes, onSelect }: Props) {
           Your choices shape the story &mdash; every path leads somewhere new
         </p>
       </div>
+
+      {hasSavedGame && (
+        <div className="continue-banner">
+          <button className="continue-btn" onClick={onContinue}>
+            <span className="continue-icon">▶</span>
+            <span className="continue-text">Continue Adventure</span>
+            <span className="continue-sub">Resume your last journey</span>
+          </button>
+        </div>
+      )}
+
       <div className="theme-grid">
         {themes.map((theme) => (
           <button

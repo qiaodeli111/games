@@ -38,6 +38,59 @@
   margin-top: 6px;
 }
 
+/* Continue banner */
+.continue-banner {
+  margin-bottom: 24px;
+}
+
+.continue-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 24px;
+  background: linear-gradient(135deg, rgba(255, 200, 50, 0.1), rgba(255, 200, 50, 0.05));
+  border: 1px solid rgba(255, 200, 50, 0.3);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  color: #e0e0e0;
+  font-family: inherit;
+}
+
+.continue-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 200, 50, 0.2), rgba(255, 200, 50, 0.1));
+  border-color: #ffd700;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(255, 200, 50, 0.15);
+}
+
+.continue-icon {
+  font-size: 1.8rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 200, 50, 0.15);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.continue-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffd700;
+}
+
+.continue-sub {
+  font-size: 0.85rem;
+  color: #888;
+  display: block;
+  margin-top: 2px;
+}
+
 .theme-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -624,21 +677,54 @@
   to { opacity: 1; }
 }
 
+.transition-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 .transition-spinner {
-  width: 50px;
-  height: 50px;
+  position: relative;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .spinner-ring {
-  width: 100%;
-  height: 100%;
-  border: 2px solid rgba(255, 200, 50, 0.2);
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 200, 50, 0.15);
   border-top-color: #ffd700;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+}
+
+.transition-symbol {
+  font-size: 1.5rem;
+  animation: symbolPulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes symbolPulse {
+  from { transform: scale(0.8); opacity: 0.5; }
+  to { transform: scale(1.1); opacity: 1; }
+}
+
+.transition-text {
+  font-size: 1rem;
+  color: rgba(255, 215, 0, 0.6);
+  letter-spacing: 3px;
+  font-style: italic;
+  min-height: 1.5em;
+  animation: textFadeIn 0.4s ease;
+}
+
+@keyframes textFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .btn-play-again {
