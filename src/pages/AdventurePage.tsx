@@ -8,7 +8,12 @@ import TransitionOverlay from '../components/adventure/TransitionOverlay';
 import './AdventurePage.css';
 
 export default function AdventurePage() {
-  const { state, error, useFallbackMode, transitionVisible, selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame, clearError, hasSavedGame, restoreSavedGame } = useAdventureGame();
+  const { state, error, useFallbackMode, transitionVisible, selectTheme, makeChoice, continueAfterEnding, toggleChinese, resetGame, clearError, hasSavedGame, restoreSavedGame, clearSavedGame } = useAdventureGame();
+
+  const startNewGame = () => {
+    clearSavedGame();
+    resetGame();
+  };
 
   if (state.status === 'menu') {
     return (
@@ -81,7 +86,7 @@ export default function AdventurePage() {
             <button className="btn-continue" onClick={continueAfterEnding}>
               ♾️ Continue Adventure
             </button>
-            <button className="btn-play-again" onClick={resetGame}>
+            <button className="btn-play-again" onClick={startNewGame}>
               New Game
             </button>
           </div>

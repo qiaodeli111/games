@@ -63,7 +63,7 @@ export function useAdventureGame() {
     prefetchCache.current.clear();
     prefetchAbort.current = true;
     literaryStyle.current = null;
-    try { localStorage.removeItem('aigame_save'); } catch {}
+    // Don't clear saved game — user can resume later
   }, []);
 
   // ─── Prefetch system ─────────────────────────────────────────
