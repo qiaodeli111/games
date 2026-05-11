@@ -63,8 +63,8 @@ export function useAdventureGame() {
     prefetchCache.current.clear();
     prefetchAbort.current = true;
     literaryStyle.current = null;
-    clearSavedGame();
-  }, [clearSavedGame]);
+    try { localStorage.removeItem('aigame_save'); } catch {}
+  }, []);
 
   // ─── Prefetch system ─────────────────────────────────────────
   // ─── Prefetch: generate next 3 scenes in background ─────────
